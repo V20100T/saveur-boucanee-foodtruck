@@ -4,9 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Reconstruit chaque nuit : la date de mise à jour de llms.txt / api.json reste fraîche
+  # Rebuild chaque dimanche à 18h (heure de Paris) pour rafraîchir la date de llms.txt / api.json.
+  # Le cron GitHub est en UTC : on lance à 16h et 17h UTC, et le job "horaire" ne garde
+  # que celui qui tombe à 18h à Paris (heure d'été comme d'hiver).
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 16,17 * * 0"
 
 permissions:
   contents: read
@@ -18,7 +20,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  horaire:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.h.outputs.ok }}
+    steps:
+      - id: h
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$(TZ=Europe/Paris date +%H)" = "18" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: horaire
+    if: needs.horaire.outputs.ok == 'true'
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.121.1

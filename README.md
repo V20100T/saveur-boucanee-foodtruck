@@ -44,4 +44,4 @@ Tout est généré depuis les fichiers `data/`, donc toujours à jour. Un vrai s
 hugo server
 ```
 
-Déploiement automatique sur GitHub Pages à chaque push sur `main` (voir `.github/workflows/pages.yml`).
+Déploiement automatique sur GitHub Pages à chaque push sur `main`, et rebuild chaque dimanche à 18h, heure de Paris (voir `.github/workflows/pages.yml`).
