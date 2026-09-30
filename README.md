@@ -30,6 +30,17 @@ Les autres contenus : `data/menu.yaml` (carte et prix), `data/histoire.yaml`, `d
 
 - `/` aujourd'hui + semaine · `/menu/` · `/ou-nous-trouver/` (carte Google) · `/histoire/` · `/evenements/` · `/photos/` · `/blog/` · `/jeu/` (**Bokit Run**)
 
+## Caisse (page interne)
+
+`/caisse/` : écran de commande pour le camion (tablette ou téléphone). Pas de lien sur le site, balise `noindex` et exclue du sitemap.
+
+- les articles et prix viennent de `data/menu.yaml` ; les extras, taux de TVA et moyens de paiement se règlent dans `data/caisse.yaml` ;
+- panier, total TTC, TVA par taux (prix TTC, TVA « dont »), montant libre, rendu monnaie en espèces ;
+- le panier en cours survit à un rechargement de la page ; aucun historique de ventes n'est conservé ;
+- **paiement direct prévu mais pas actif** : voir l'objet `PAIEMENTS` dans `assets/js/caisse.js` (SumUp, Stripe Terminal, lien / QR de paiement).
+
+⚠️ Ce n'est pas un logiciel de caisse certifié (NF525, obligatoire en France pour enregistrer les ventes d'un commerçant assujetti à la TVA). À utiliser comme calculatrice de commande.
+
 ## Pour les IA et les moteurs de recherche
 
 - **`/llms.txt`** : horaires, lieux, exceptions et menu en texte simple (l'équivalent d'un `robots.txt` pour les assistants IA) ;
